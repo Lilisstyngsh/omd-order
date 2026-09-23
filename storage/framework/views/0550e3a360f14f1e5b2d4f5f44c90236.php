@@ -1,10 +1,8 @@
-@extends('layouts.app')
+<?php $__env->startSection('title', 'Order Saya'); ?>
 
-@section('title', 'Order Saya')
+<?php $__env->startSection('header', 'Order Saya'); ?>
 
-@section('header', 'Order Saya')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
     <div class="page-head">
         <div>
             <h2>Order Repair Box</h2>
@@ -13,7 +11,7 @@
             </div>
         </div>
 
-        <a class="btn btn-primary" href="{{ route('user.orders.create') }}">
+        <a class="btn btn-primary" href="<?php echo e(route('user.orders.create')); ?>">
             + Buat Order
         </a>
     </div>
@@ -33,53 +31,60 @@
             </thead>
 
             <tbody>
-                @forelse($orders as $order)
+                <?php $__empty_1 = true; $__currentLoopData = $orders; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $order): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                     <tr>
                         <td>
-                            <b>{{ $order->order_number }}</b>
+                            <b><?php echo e($order->order_number); ?></b>
                         </td>
 
                         <td>
-                            {{ $order->order_date->format('d/m/Y') }}
+                            <?php echo e($order->order_date->format('d/m/Y')); ?>
+
                         </td>
 
                         <td>
-                            {{ $order->area->category }} - {{ $order->area->name }}
+                            <?php echo e($order->area->category); ?> - <?php echo e($order->area->name); ?>
+
                         </td>
 
                         <td>
-                            {{ $order->product->name }}
+                            <?php echo e($order->product->name); ?>
+
                         </td>
 
                         <td>
-                            {{ $order->quantity }}
+                            <?php echo e($order->quantity); ?>
+
                         </td>
 
                         <td>
-                            <span class="badge badge-{{ $order->status }}">
-                                {{ $order->status_label }}
+                            <span class="badge badge-<?php echo e($order->status); ?>">
+                                <?php echo e($order->status_label); ?>
+
                             </span>
                         </td>
 
                         <td>
                             <a
                                 class="btn btn-secondary"
-                                href="{{ route('user.orders.show', $order) }}"
+                                href="<?php echo e(route('user.orders.show', $order)); ?>"
                             >
                                 Detail
                             </a>
                         </td>
                     </tr>
-                @empty
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                     <tr>
                         <td colspan="7" class="empty">
                             Belum ada order.
                         </td>
                     </tr>
-                @endforelse
+                <?php endif; ?>
             </tbody>
         </table>
     </div>
 
-    {{ $orders->links() }}
-@endsection
+    <?php echo e($orders->links()); ?>
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\laragon\www\omd-order\resources\views/user/orders/index.blade.php ENDPATH**/ ?>

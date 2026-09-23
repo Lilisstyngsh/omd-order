@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>@yield('title', 'OMD Order')</title>
+    <title><?php echo $__env->yieldContent('title', 'OMD Order'); ?></title>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 
@@ -490,10 +490,10 @@
 
 <body>
 
-    @auth
+    <?php if(auth()->guard()->check()): ?>
         <div class="app">
 
-            {{-- Sidebar --}}
+            
             <aside class="sidebar">
                 <div class="brand">
                     OMD ORDER
@@ -503,42 +503,42 @@
                 <div class="nav-title">Menu</div>
 
                 <nav class="nav">
-                    <a href="{{ route('dashboard') }}">
+                    <a href="<?php echo e(route('dashboard')); ?>">
                         Dashboard
                     </a>
 
-                    @if (auth()->user()->role === 'user')
-                        <a href="{{ route('user.orders.index') }}">
+                    <?php if(auth()->user()->role === 'user'): ?>
+                        <a href="<?php echo e(route('user.orders.index')); ?>">
                             Order Repair Box
                         </a>
 
-                        <a href="{{ route('user.orders.create') }}">
+                        <a href="<?php echo e(route('user.orders.create')); ?>">
                             XBuat Order RepairX
                         </a>
 
-                        <a href="{{ route('user.tps.index') }}">
+                        <a href="<?php echo e(route('user.tps.index')); ?>">
                             Order Repair TPS Tools
                         </a>
-                    @else
-                        <a href="{{ route('omd.orders.index') }}">
+                    <?php else: ?>
+                        <a href="<?php echo e(route('omd.orders.index')); ?>">
                             Order Repair
                         </a>
 
-                        <a href="{{ route('omd.recap') }}">
+                        <a href="<?php echo e(route('omd.recap')); ?>">
                             Rekap Repair
                         </a>
 
-                        <a href="{{ route('omd.tps.index') }}">
+                        <a href="<?php echo e(route('omd.tps.index')); ?>">
                             TPS Tool
                         </a>
-                    @endif
+                    <?php endif; ?>
                 </nav>
 
                 <div class="nav-title">Akun</div>
 
                 <nav class="nav">
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
+                    <form method="POST" action="<?php echo e(route('logout')); ?>">
+                        <?php echo csrf_field(); ?>
 
                         <button
                             type="submit"
@@ -551,59 +551,62 @@
                 </nav>
             </aside>
 
-            {{-- Main Content --}}
+            
             <main class="main">
 
-                {{-- Topbar --}}
+                
                 <header class="topbar">
                     <h1>
-                        @yield('header', 'Dashboard')
+                        <?php echo $__env->yieldContent('header', 'Dashboard'); ?>
                     </h1>
 
                     <div class="userbox">
                         <div>
-                            <b>{{ auth()->user()->name }}</b>
+                            <b><?php echo e(auth()->user()->name); ?></b>
 
                             <div class="muted">
-                                {{ str_replace('_', ' ', ucwords(auth()->user()->role)) }}
+                                <?php echo e(str_replace('_', ' ', ucwords(auth()->user()->role))); ?>
+
                             </div>
                         </div>
 
                         <div class="avatar">
-                            {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+                            <?php echo e(strtoupper(substr(auth()->user()->name, 0, 1))); ?>
+
                         </div>
                     </div>
                 </header>
 
-                {{-- Content --}}
+                
                 <section class="content">
 
-                    @if (session('success'))
+                    <?php if(session('success')): ?>
                         <div class="alert alert-success">
-                            {{ session('success') }}
-                        </div>
-                    @endif
+                            <?php echo e(session('success')); ?>
 
-                    @if ($errors->any())
+                        </div>
+                    <?php endif; ?>
+
+                    <?php if($errors->any()): ?>
                         <div class="alert alert-error">
                             <ul style="margin: 0; padding-left: 18px;">
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
+                                <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <li><?php echo e($error); ?></li>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </ul>
                         </div>
-                    @endif
+                    <?php endif; ?>
 
-                    @yield('content')
+                    <?php echo $__env->yieldContent('content'); ?>
 
                 </section>
 
             </main>
         </div>
-    @else
-        @yield('guest')
-    @endauth
+    <?php else: ?>
+        <?php echo $__env->yieldContent('guest'); ?>
+    <?php endif; ?>
 
 </body>
 
-</html>
+</html><?php /**PATH C:\laragon\www\omd-order\resources\views/layouts/app.blade.php ENDPATH**/ ?>
