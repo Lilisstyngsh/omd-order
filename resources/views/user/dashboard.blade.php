@@ -29,7 +29,7 @@
         </div>
 
         <div class="card">
-            <div class="stat-label">Menunggu OMD</div>
+            <div class="stat-label">Menunggu Verifikasi OMD</div>
             <div class="stat-value">{{ $submitted }}</div>
         </div>
 

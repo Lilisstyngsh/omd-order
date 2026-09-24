@@ -22,19 +22,19 @@ class DashboardController extends Controller
 
         $totalOrders = (clone $base)->count();
         $finishedOrders = (clone $base)->whereIn('status', ['completed', 'confirmed'])->count();
-        $scrap = RepairResult::whereHas('order', fn ($q) => $q->whereYear('order_date', $year)->whereMonth('order_date', $month)->when($areaId, fn ($qq) => $qq->where('area_id', $areaId)))->sum('scrap_qty');
-        $target = Target::where('year', $year)->where('month', $month)->when($areaId, fn ($q) => $q->where('area_id', $areaId))->sum('target_qty');
+        $scrap = RepairResult::whereHas('order', fn($q) => $q->whereYear('order_date', $year)->whereMonth('order_date', $month)->when($areaId, fn($qq) => $qq->where('area_id', $areaId)))->sum('scrap_qty');
+        $target = Target::where('year', $year)->where('month', $month)->when($areaId, fn($q) => $q->where('area_id', $areaId))->sum('target_qty');
 
         $months = [];
         $orderSeries = [];
         $finishSeries = [];
         $scrapSeries = [];
         for ($m = 1; $m <= 12; $m++) {
-            $q = RepairOrder::query()->whereYear('order_date', $year)->whereMonth('order_date', $m)->when($areaId, fn ($qq) => $qq->where('area_id', $areaId));
+            $q = RepairOrder::query()->whereYear('order_date', $year)->whereMonth('order_date', $m)->when($areaId, fn($qq) => $qq->where('area_id', $areaId));
             $months[] = Carbon::create($year, $m, 1)->format('M');
             $orderSeries[] = (clone $q)->count();
             $finishSeries[] = (clone $q)->whereIn('status', ['completed', 'confirmed'])->count();
-            $scrapSeries[] = RepairResult::whereHas('order', fn ($oq) => $oq->whereYear('order_date', $year)->whereMonth('order_date', $m)->when($areaId, fn ($qq) => $qq->where('area_id', $areaId)))->sum('scrap_qty');
+            $scrapSeries[] = RepairResult::whereHas('order', fn($oq) => $oq->whereYear('order_date', $year)->whereMonth('order_date', $m)->when($areaId, fn($qq) => $qq->where('area_id', $areaId)))->sum('scrap_qty');
         }
 
         return view('omd.dashboard.index', compact('month', 'year', 'areaId', 'totalOrders', 'finishedOrders', 'scrap', 'target', 'months', 'orderSeries', 'finishSeries', 'scrapSeries'));

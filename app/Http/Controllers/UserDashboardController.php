@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\RepairOrder;
@@ -13,7 +14,7 @@ class UserDashboardController extends Controller
         $submitted = (clone $base)->where('status', 'submitted')->count();
         $inRepair = (clone $base)->where('status', 'in_repair')->count();
         $completed = (clone $base)->whereIn('status', ['completed', 'confirmed'])->count();
-        $recentOrders = (clone $base)->with(['area','product'])->latest()->limit(6)->get();
-        return view('user.dashboard', compact('total','submitted','inRepair','completed','recentOrders'));
+        $recentOrders = (clone $base)->with(['area', 'product'])->latest()->limit(6)->get();
+        return view('user.dashboard', compact('total', 'submitted', 'inRepair', 'completed', 'recentOrders'));
     }
 }

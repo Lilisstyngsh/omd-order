@@ -1,3 +1,124 @@
-@extends('layouts.app') @section('title','Buat Order Repair') @section('header','Buat Order Repair') @section('content')
-<div class="page-head"><div><h2>Form Order Repair Box NG</h2><div class="muted">Isi data sesuai informasi box NG yang akan dikirim ke OMD Workshop.</div></div></div>
-<div class="card form-card"><form method="POST" action="{{ route('user.orders.store') }}">@csrf<div class="form-grid"><div class="field"><label>Area / User</label><select name="area_id" required><option value="">Pilih area</option>@foreach($areas as $area)<option value="{{ $area->id }}" @selected(old('area_id',auth()->user()->area_id)==$area->id)>{{ $area->category }} - {{ $area->name }}</option>@endforeach</select></div><div class="field"><label>Produk</label><select name="product_id" required><option value="">Pilih produk</option>@foreach($products as $product)<option value="{{ $product->id }}" @selected(old('product_id')==$product->id)>{{ $product->code }} - {{ $product->name }}</option>@endforeach</select></div><div class="field"><label>Model</label><input name="model" value="{{ old('model') }}" placeholder="Contoh: Model A"></div><div class="field"><label>Jenis NG</label><select name="ng_type_id" required><option value="">Pilih jenis NG</option>@foreach($ngTypes as $type)<option value="{{ $type->id }}" @selected(old('ng_type_id')==$type->id)>{{ $type->code }} - {{ $type->name }}</option>@endforeach</select></div><div class="field"><label>Quantity</label><input type="number" name="quantity" min="1" value="{{ old('quantity',1) }}" required></div><div class="field full"><label>Keterangan</label><textarea name="description" placeholder="Jelaskan kondisi/problem jika diperlukan.">{{ old('description') }}</textarea></div></div><div style="margin-top:18px;display:flex;gap:8px"><a class="btn btn-secondary" href="{{ route('user.orders.index') }}">Batal</a><button class="btn btn-primary">Kirim Order ke OMD</button></div></form></div>@endsection
+@extends('layouts.app')
+
+@section('title', 'Buat Order Repair')
+@section('header', 'Buat Order Repair')
+
+@section('content')
+
+    <div class="page-head">
+        <div>
+            <h2>Form Order Repair Box NG</h2>
+
+            <div class="muted">
+                Isi data sesuai informasi box NG yang akan dikirim ke OMD Workshop.
+            </div>
+        </div>
+    </div>
+
+    <div class="card form-card">
+        <form method="POST" action="{{ route('user.orders.store') }}">
+            @csrf
+
+            <div class="form-grid">
+
+                <div class="field">
+                    <label>Area / User</label>
+
+                    <select name="area_id" required>
+                        <option value="">Pilih area</option>
+
+                        @foreach ($areas as $area)
+                            <option
+                                value="{{ $area->id }}"
+                                @selected(old('area_id', auth()->user()->area_id) == $area->id)
+                            >
+                                {{ $area->category }} - {{ $area->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label>Produk</label>
+
+                    <select name="product_id" required>
+                        <option value="">Pilih produk</option>
+
+                        @foreach ($products as $product)
+                            <option
+                                value="{{ $product->id }}"
+                                @selected(old('product_id') == $product->id)
+                            >
+                                {{ $product->code }} - {{ $product->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label>Model</label>
+
+                    <input
+                        name="model"
+                        value="{{ old('model') }}"
+                        placeholder="Contoh: Model A"
+                    >
+                </div>
+
+                <div class="field">
+                    <label>Jenis NG</label>
+
+                    <select name="ng_type_id" required>
+                        <option value="">Pilih jenis NG</option>
+
+                        @foreach ($ngTypes as $type)
+                            <option
+                                value="{{ $type->id }}"
+                                @selected(old('ng_type_id') == $type->id)
+                            >
+                                {{ $type->code }} - {{ $type->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label>Quantity</label>
+
+                    <input
+                        type="number"
+                        name="quantity"
+                        min="1"
+                        value="{{ old('quantity', 1) }}"
+                        required
+                    >
+                </div>
+
+                <div class="field full">
+                    <label>Keterangan</label>
+
+                    <textarea
+                        name="description"
+                        placeholder="Jelaskan kondisi/problem jika diperlukan."
+                    >{{ old('description') }}</textarea>
+                </div>
+
+            </div>
+
+            <div style="margin-top:18px;display:flex;gap:8px">
+                <a
+                    class="btn btn-secondary"
+                    href="{{ route('user.orders.index') }}"
+                >
+                    Batal
+                </a>
+
+                <button class="btn btn-primary">
+                    Kirim Order ke OMD
+                </button>
+            </div>
+
+        </form>
+    </div>
+
+@endsection
